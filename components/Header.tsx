@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import logo from "@/assets/ceo.png";
+import logo1 from "@/assets/profile-pic.png";
 import Image from "next/image";
 import { Dropdown, Space } from "antd";
 import type { MenuProps } from "antd";
@@ -116,6 +117,7 @@ const Header = () => {
             </a>
           </nav>
         </div>
+
       </div>
     </div>
   );
