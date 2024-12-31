@@ -1,6 +1,7 @@
 import React from "react";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import logo from "@/assets/ceo.png";
+import logo1 from "@/assets/profile-pic.png";
 import Image from "next/image";
 
 const Header = () => {
@@ -15,7 +16,7 @@ const Header = () => {
         <button className="px-5 py-2 text-primary text-sm">Docs</button>
         <button className="px-5 py-2 text-primary text-sm">Changelog</button>
         <Image
-          src={logo}
+          src={logo1}
           height={30}
           width={30}
           className="rounded-full"
