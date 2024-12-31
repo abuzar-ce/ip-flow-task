@@ -9,8 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "#6E3EA0",
+        "gray-bg": "#f9fafb",
+        "white-bg": "#ffffff",
+      },
+      backgroundImage: {
+        "ip-button-grad":
+          "linear-gradient(107.16deg, #6E3895 4.67%, #3F50A5 93.93%)",
       },
     },
   },

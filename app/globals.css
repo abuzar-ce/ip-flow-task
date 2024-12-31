@@ -25,3 +25,38 @@ body {
     text-wrap: balance;
   }
 }
+
+.button-border{
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: linear-gradient(105deg, rgba(255,255,255,0.01) 32%, rgba(110,56,149,1) 57%, rgba(255,255,255,0.01) 100%);
+}
+
+
+/* codepen spinner */
+@keyframes rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  
+  border: 2px solid #0000001a;
+  border-radius: 50%;
+  border-right-color: #6E3EA0;
+  
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+
+  100% {
+      transform: rotate(360deg);
+  }
+}
