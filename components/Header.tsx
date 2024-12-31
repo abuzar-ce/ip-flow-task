@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import logo from "@/assets/ceo.png";
 import logo1 from "@/assets/profile-pic.png";
 import Image from "next/image";
 import { Dropdown, Space } from "antd";
@@ -67,7 +66,7 @@ const Header = () => {
           <a onClick={(e) => e.preventDefault()}>
             <Space>
               <Image
-                src={logo}
+                src={logo1}
                 height={30}
                 width={30}
                 className="rounded-full hover:cursor-pointer"
@@ -91,7 +90,7 @@ const Header = () => {
           />
           <nav className="p-4 space-y-4">
             <Image
-              src={logo}
+              src={logo1}
               height={30}
               width={30}
               className="rounded-full hover:cursor-pointer"
@@ -117,7 +116,6 @@ const Header = () => {
             </a>
           </nav>
         </div>
-
       </div>
     </div>
   );
