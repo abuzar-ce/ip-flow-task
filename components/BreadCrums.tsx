@@ -1,10 +1,19 @@
 import React from "react";
 import Link from "next/link";
 
-const BreadCrums = ({ data }: any) => {
+type BreadcrumbItem = {
+  name: string;
+  href?: string;
+};
+
+interface BreadCrumsProps {
+  data: BreadcrumbItem[];
+}
+
+const BreadCrums: React.FC<BreadCrumsProps> = ({ data }) => {
   return (
     <div className="flex gap-1 items-center">
-      {data.map((item: any, i: number) =>
+      {data.map((item, i) =>
         item.href ? (
           <span key={i} className="text-sm text-gray-600">
             <Link href={item.href}> {item.name}</Link> &gt;

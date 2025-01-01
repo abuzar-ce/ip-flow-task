@@ -1,10 +1,14 @@
 "use client";
-import React from "react";
+import React, { ReactNode } from "react";
 import Header from "../Header";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 
-const Wrapper = ({ child }: any) => {
+interface WrapperProps {
+  child: ReactNode;
+}
+
+const Wrapper: React.FC<WrapperProps> = ({ child }: any) => {
   return (
     <>
       <Header />
