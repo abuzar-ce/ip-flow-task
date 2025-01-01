@@ -8,7 +8,7 @@ interface WrapperProps {
   child: ReactNode;
 }
 
-const Wrapper: React.FC<WrapperProps> = ({ child }: any) => {
+const Wrapper: React.FC<WrapperProps> = ({ child }) => {
   return (
     <>
       <Header />
