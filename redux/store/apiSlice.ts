@@ -1,14 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define the structure of API response
-interface IP {
-  id: string;
+interface IPData {
   ip: string;
-  status: string;
-  number_of_ports: string;
+  status: string | "Pending" | "Completed";
   owner: string;
   country: string;
-  fraud_score: string;
+  fraud_score?: string | number;
+  number_of_ports?: number;
 }
 
 export const apiSlice = createApi({
@@ -18,7 +17,7 @@ export const apiSlice = createApi({
   }),
   endpoints: (builder) => ({
     // Define the query to fetch all IPs
-    getAllIPs: builder.query<IP[], void>({
+    getAllIPs: builder.query<IPData[], void>({
       query: () => "all-ips", // query endpoint
     }),
   }),
