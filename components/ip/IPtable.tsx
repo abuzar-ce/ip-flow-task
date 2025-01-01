@@ -13,14 +13,14 @@ import schedule from "@/assets/schedule.svg";
 import scan from "@/assets/scan.svg";
 import rename from "@/assets/rename.svg";
 
-// interface IPData {
-//   ip: string;
-//   status: string;
-//   owner: string;
-//   country: string;
-//   fraud_score?: string | number;
-//   number_of_ports?: number;
-// }
+interface IPData {
+  ip: string;
+  status: string;
+  owner: string;
+  country: string;
+  fraud_score?: string | number;
+  number_of_ports?: number;
+}
 
 const IPtable = () => {
   const [pollingInterval, setPollingInterval] = useState(5000);
@@ -58,10 +58,10 @@ const IPtable = () => {
   };
 
   const handleRowCheckboxChange = (index: number) => {
-    setSelectedRows((prevSelectedRows: any) => {
+    setSelectedRows((prevSelectedRows) => {
       if (prevSelectedRows.includes(index)) {
         // Deselect the row
-        const updatedRows = prevSelectedRows.filter((i: any) => i !== index);
+        const updatedRows = prevSelectedRows.filter((i) => i !== index);
         // Update "Select All" checkbox based on whether all rows are selected
         setSelectedAllCheck(updatedRows.length === data?.length);
         return updatedRows;
@@ -85,7 +85,7 @@ const IPtable = () => {
     });
   };
 
-  const handleViewClick = (ipData: any) => {
+  const handleViewClick = (ipData: IPData) => {
     if (ipData.status === "Pending") {
       openNotification();
     } else if (ipData.status === "Completed") {
