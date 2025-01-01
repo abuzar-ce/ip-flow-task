@@ -13,14 +13,14 @@ import schedule from "@/assets/schedule.svg";
 import scan from "@/assets/scan.svg";
 import rename from "@/assets/rename.svg";
 
-interface IPData {
-  ip: string;
-  status: string | "Pending" | "Completed";
-  owner: string;
-  country: string;
-  fraud_score?: string | number;
-  number_of_ports?: number;
-}
+// interface IPData {
+//   ip: string;
+//   status: string | "Pending" | "Completed";
+//   owner: string;
+//   country: string;
+//   fraud_score?: string | number;
+//   number_of_ports?: number;
+// }
 
 const IPtable = () => {
   const [pollingInterval, setPollingInterval] = useState(5000);
