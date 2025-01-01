@@ -15,7 +15,7 @@ import rename from "@/assets/rename.svg";
 
 interface IPData {
   ip: string;
-  status: string;
+  status: string | "Pending" | "Completed";
   owner: string;
   country: string;
   fraud_score?: string | number;
@@ -41,7 +41,7 @@ const IPtable = () => {
     console.log("testing query", data);
   }, []);
   const [selectedAllCheck, setSelectedAllCheck] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [searchIp, setSearchIp] = useState("");
   const router = useRouter();
 
@@ -85,7 +85,7 @@ const IPtable = () => {
     });
   };
 
-  const handleViewClick = (ipData: IPData) => {
+  const handleViewClick = (ipData: any) => {
     if (ipData.status === "Pending") {
       openNotification();
     } else if (ipData.status === "Completed") {
