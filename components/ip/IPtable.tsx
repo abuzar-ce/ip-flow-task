@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaEllipsisV, FaTable } from "react-icons/fa";
+import { FaEllipsisV } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { useGetAllIPsQuery } from "@/redux/store/apiSlice";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -13,9 +13,18 @@ import schedule from "@/assets/schedule.svg";
 import scan from "@/assets/scan.svg";
 import rename from "@/assets/rename.svg";
 
+interface IPData {
+  ip: string;
+  status: string;
+  owner: string;
+  country: string;
+  fraud_score?: string | number;
+  number_of_ports?: number;
+}
+
 const IPtable = () => {
   const [pollingInterval, setPollingInterval] = useState(5000);
-  const { data, error, isLoading } = useGetAllIPsQuery(undefined, {
+  const { data, isLoading } = useGetAllIPsQuery(undefined, {
     pollingInterval,
   });
 
@@ -36,8 +45,9 @@ const IPtable = () => {
   const [searchIp, setSearchIp] = useState("");
   const router = useRouter();
 
-  const handleRescan = (ip: any) => {};
-
+  // const handleRescan = (ipData: IPData) => {
+  //   console.log(`Rescanning ${ipData.ip}`);
+  // };
   const handleSelectedCheckAll = () => {
     setSelectedAllCheck((prev) => !prev);
     if (!selectedAllCheck) {
@@ -238,9 +248,9 @@ const IPtable = () => {
                     {ipData.status == "Completed" ? (
                       <button
                         className="text-primary font-bold "
-                        onClick={() => {
-                          handleRescan(ipData);
-                        }}
+                        // onClick={() => {
+                        //   handleRescan(ipData);
+                        // }}
                       >
                         Rescan
                       </button>
