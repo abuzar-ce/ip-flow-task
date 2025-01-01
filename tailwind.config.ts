@@ -17,6 +17,12 @@ const config: Config = {
         "ip-button-grad":
           "linear-gradient(107.16deg, #6E3895 4.67%, #3F50A5 93.93%)",
       },
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+        primary: ["Lato", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+        lemon: ["var(--font-lemon)"],
+      },
     },
   },
   plugins: [],

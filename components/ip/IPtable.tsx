@@ -27,10 +27,11 @@ const IPtable = () => {
       setPollingInterval(0);
     }
   }, [data]);
+  // console.log("testing query", data);
 
-  useEffect(() => {
-    console.log("testing query", data);
-  }, []);
+  // useEffect(() => {
+  //   console.log("testing query", data);
+  // }, []);
   const [selectedAllCheck, setSelectedAllCheck] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [searchIp, setSearchIp] = useState("");
@@ -77,7 +78,8 @@ const IPtable = () => {
     if (ipData.status === "Pending") {
       openNotification();
     } else if (ipData.status === "Completed") {
-      router.push("/ip-address");
+      const scanId = ipData.scan_id;
+      router.push(`/ip-address/${scanId}`);
     }
   };
 
