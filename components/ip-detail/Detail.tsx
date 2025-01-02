@@ -1,50 +1,75 @@
 "use client";
 import React from "react";
 import BreadCrums from "../BreadCrums";
-import { ipData } from "@/lib/ipData";
 import IpCard from "./IpCard";
 import HeaderCard from "./HeaderCard";
 import { useGetScanResultsQuery } from "@/redux/store/apiSlice";
 
 const Detail = ({ ip }: { ip: any }) => {
-  console.log("ip token:", ip);
-  const { data, isLoading } = useGetScanResultsQuery(ip);
+  // console.log("ip token:", ip);
+  const { data, isLoading, error } = useGetScanResultsQuery(ip);
+
   console.log("testting data", data);
+  const rustResult = data?.results?.rust_result?.data[0];
+  const whoIsIp = data?.results?.whoisip_result?.data;
+  const ipInfoResult = data?.results?.ipinfo_result?.data;
+  const nucleiIpResult = data?.results?.nucleiip_result;
+  const ipProxyDetectorResult = data?.results?.ipproxydetector_result;
+  const whatWafIpResult = data?.results?.whatwafip_result?.data;
 
   const breadData = [
     { name: "Home", href: "/" },
     { name: "IP Address", href: "/ip-address" },
-    { name: "192.168.4.2", href: "" },
+    { name: whoIsIp?.query?.ip, href: "" },
   ];
   return (
     <div className="flex flex-col ">
       <div className="flex justify-between my-4">
         <div>
-          <BreadCrums data={breadData} />
+          <BreadCrums data={breadData} loading={isLoading} error={error} />
           <p className="font-inter text-sm">Summery</p>
         </div>
       </div>
       <div className="flex gap-4 flex-col md:flex-row bg-white-bg p-2 rounded-2xl mb-4">
-        <HeaderCard />
-        {ipData.map((item: any, i: number) => {
-          return (
-            <div
-              key={i}
-              className="flex flex-col mb-2 p-4 rounded-2xl bg-white  w-full"
-              style={{
-                color: item.value.color,
-                backgroundColor: `${item.value.color}20`,
-              }}
-            >
-              <div className="text-lg sm:text-[35px] font-semibold w-full p-2">
-                {item.value.number}
-              </div>
-              <p className="text-xs p-2 ">{item.name}</p>
-            </div>
-          );
-        })}
+        <HeaderCard
+          number={rustResult?.ports?.length}
+          title={"Open Ports"}
+          numColor={"#1757C1"}
+          loading={isLoading}
+          error={error}
+        />
+        <HeaderCard
+          number={rustResult?.ports?.length}
+          title={"Services Identified"}
+          numColor={"#339900"}
+          loading={isLoading}
+          error={error}
+        />
+        <HeaderCard
+          number={nucleiIpResult?.length}
+          title={"Vulnerabilities"}
+          numColor={"#EE1600"}
+          loading={isLoading}
+          error={error}
+        />
+        <HeaderCard
+          number={9}
+          title={"Reputation Score"}
+          numColor={"#FFA620"}
+          loading={isLoading}
+          error={error}
+        />
       </div>
-      <IpCard />
+      <IpCard
+        rustResultDetail={rustResult}
+        whoIsIpDetail={whoIsIp}
+        ipInfoResultDetail={ipInfoResult}
+        nucleiIpResultDetail={nucleiIpResult}
+        ipProxyDetectorResultDetail={ipProxyDetectorResult}
+        whatWafIpResultDetail={whatWafIpResult}
+        loading={isLoading}
+        error={error}
+      />
     </div>
   );
 };

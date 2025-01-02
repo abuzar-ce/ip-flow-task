@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import Header from "../Header";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface WrapperProps {
   child: ReactNode;

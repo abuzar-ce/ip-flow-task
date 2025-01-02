@@ -15,9 +15,10 @@ import rename from "@/assets/rename.svg";
 
 const IPtable = () => {
   const [pollingInterval, setPollingInterval] = useState(5000);
-  const { data, isLoading } = useGetAllIPsQuery(undefined, {
+  const { data, isLoading, error } = useGetAllIPsQuery(undefined, {
     pollingInterval,
   });
+  console.log("error", error);
 
   useEffect(() => {
     const scanPending = data?.some((ipData) => ipData.status !== "Completed");
@@ -263,6 +264,15 @@ const IPtable = () => {
           {isLoading ? (
             <div className="flex justify-center my-10">
               <p className="text-sm ">Loading</p>
+            </div>
+          ) : (
+            ""
+          )}
+          {error ? (
+            <div className="flex justify-center my-10">
+              <p className="text-sm ">
+                Error in fetching data, for details see logs
+              </p>
             </div>
           ) : (
             ""

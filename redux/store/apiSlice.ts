@@ -20,7 +20,7 @@ export const apiSlice = createApi({
     getAllIPs: builder.query<IPData[], void>({
       query: () => "all-ips", // query endpoint
     }),
-    getScanResults: builder.query<any[], void>({
+    getScanResults: builder.query({
       query: (token) => `scan-result/${token}`, // query endpoint
     }),
   }),
