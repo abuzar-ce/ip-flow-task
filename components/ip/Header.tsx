@@ -1,5 +1,5 @@
 import React from "react";
-import BreadCrums from "../BreadCrums";
+import BreadCrums from "../layout/BreadCrums";
 
 const Header = () => {
   const breadData = [

@@ -12,6 +12,7 @@ const config: Config = {
         primary: "#6E3EA0",
         "gray-bg": "#f9fafb",
         "white-bg": "#ffffff",
+        "drawer-bg": "#fbfbfb",
       },
       backgroundImage: {
         "ip-button-grad":

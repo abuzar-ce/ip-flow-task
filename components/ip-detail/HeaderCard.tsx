@@ -26,7 +26,7 @@ const HeaderCard = ({
           className="text-lg sm:text-[35px] font-semibold w-full p-2"
           style={{ color: numColor }}
         >
-          {number}
+          {number ? number : 0}
         </div>
       )}
       {!loading && error && (

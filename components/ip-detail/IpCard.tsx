@@ -1,20 +1,22 @@
 import React from "react";
-import { RiExternalLinkLine } from "react-icons/ri";
-import NetworkDetailCard from "./NetworkDetailCard";
-import ServicesAndPortsCard from "./ServicesAndPortsCard";
-import TechnologiesCard from "./TechnologiesCard";
-import VulnerabilitiesAndThreatsCard from "./VulnerabilitiesAndThreatsCard";
-import WhoIsIpCard from "./WhoIsIpCard";
-import HistoricalDataCard from "./HistoricalDataCard";
-import DarkWebAnalysisCard from "./DarkWebAnalysisCard";
+import NetworkDetailCard from "./networkDetail/NetworkDetailCard";
+import ServicesAndPortsCard from "./servicesDetail/ServicesAndPortsCard";
+import TechnologiesCard from "./technologyDetail/TechnologiesCard";
+import VulnerabilitiesAndThreatsCard from "./vulnerabilityDetail/VulnerabilitiesAndThreatsCard";
+import WhoIsIpCard from "./ipWhois/WhoIsIpCard";
+import HistoricalDataCard from "./historyDetail/HistoricalDataCard";
+import DarkWebAnalysisCard from "./darkWebDetail/DarkWebAnalysisCard";
 
 const IpCard = ({
   rustResultDetail,
   whoIsIpDetail,
+  ipReputationScoreResultDetail,
   ipInfoResultDetail,
   nucleiIpResultDetail,
   ipProxyDetectorResultDetail,
   whatWafIpResultDetail,
+  ipCmsEekResultDetail,
+  firstReverseDnsValue,
   loading,
   error,
 }: any) => {
@@ -24,11 +26,13 @@ const IpCard = ({
         <WhoIsIpCard
           whoIsIpDetail={whoIsIpDetail}
           ipInfoResultDetail={ipInfoResultDetail}
+          ipReputationScoreResultDetail={ipReputationScoreResultDetail}
           loading={loading}
           error={error}
         />
         <VulnerabilitiesAndThreatsCard
           nucleiIpResultDetail={nucleiIpResultDetail}
+          ipReputationScoreResultDetail={ipReputationScoreResultDetail}
           loading={loading}
           error={error}
         />
@@ -40,11 +44,13 @@ const IpCard = ({
         <NetworkDetailCard
           ipProxyDetectorResultDetail={ipProxyDetectorResultDetail}
           whoIsIpDetail={whoIsIpDetail}
+          firstReverseDnsValue={firstReverseDnsValue}
           loading={loading}
           error={error}
         />
         <TechnologiesCard
           whatWafIpResultDetail={whatWafIpResultDetail}
+          ipCmsEekResultDetail={ipCmsEekResultDetail}
           loading={loading}
           error={error}
         />

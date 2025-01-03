@@ -14,8 +14,9 @@ import scan from "@/assets/scan.svg";
 import rename from "@/assets/rename.svg";
 
 const IPtable = () => {
+  const userId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
   const [pollingInterval, setPollingInterval] = useState(5000);
-  const { data, isLoading, error } = useGetAllIPsQuery(undefined, {
+  const { data, isLoading, error } = useGetAllIPsQuery(userId, {
     pollingInterval,
   });
   console.log("error", error);
@@ -128,7 +129,7 @@ const IPtable = () => {
   ];
 
   return (
-    <div className="flex flex-col px-1 bg-white-bg mt-5 rounded-lg">
+    <div className="flex flex-col bg-white-bg mt-5 rounded-lg">
       <div className="flex items-center">
         <input
           type="text"
@@ -148,7 +149,7 @@ const IPtable = () => {
         </Dropdown>
       </div>
 
-      <div className="bg-white-bg rounded-lg overflow-hidden h-auto flex flex-col gap-5">
+      <div className="bg-white-bg rounded-2xl overflow-hidden h-auto flex flex-col gap-5">
         <div className="overflow-x-auto ">
           <table className="w-full px-3 ">
             <thead className="w-full px-3 divide-gray-200">
@@ -158,6 +159,9 @@ const IPtable = () => {
                     type="checkbox"
                     checked={selectedAllCheck}
                     onChange={handleSelectedCheckAll}
+                    className={`hover:cursor-pointer ${
+                      selectedAllCheck ? "text-primary" : "text-gray-500"
+                    }`}
                   />
                 </th>
                 <th className="px-6 sm:px-3 py-3  text-center text-sm font-semibold  tracking-wider">
@@ -202,6 +206,7 @@ const IPtable = () => {
                       type="checkbox"
                       checked={selectedRows.includes(i)}
                       onChange={() => handleRowCheckboxChange(i)}
+                      className="hover:cursor-pointer"
                     />
                   </td>
                   <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">

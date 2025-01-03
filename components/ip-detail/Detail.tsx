@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import BreadCrums from "../BreadCrums";
+import BreadCrums from "../layout/BreadCrums";
 import IpCard from "./IpCard";
 import HeaderCard from "./HeaderCard";
 import { useGetScanResultsQuery } from "@/redux/store/apiSlice";
@@ -16,7 +16,12 @@ const Detail = ({ ip }: { ip: any }) => {
   const nucleiIpResult = data?.results?.nucleiip_result;
   const ipProxyDetectorResult = data?.results?.ipproxydetector_result;
   const whatWafIpResult = data?.results?.whatwafip_result?.data;
-
+  const ipReputationScoreResult = data?.results?.ipreputationscore_result;
+  const ipCmsEekResult = data?.results?.ipcmseek_result;
+  const reverseDns = data?.results?.ipdig_result?.data?.result;
+  // Extract the first key-value pair
+  const firstEntry = reverseDns ? Object.entries(reverseDns)[0] : null;
+  const firstReverseDnsValue = firstEntry ? firstEntry[1] : null;
   const breadData = [
     { name: "Home", href: "/" },
     { name: "IP Address", href: "/ip-address" },
@@ -63,10 +68,13 @@ const Detail = ({ ip }: { ip: any }) => {
       <IpCard
         rustResultDetail={rustResult}
         whoIsIpDetail={whoIsIp}
+        ipReputationScoreResultDetail={ipReputationScoreResult}
         ipInfoResultDetail={ipInfoResult}
         nucleiIpResultDetail={nucleiIpResult}
         ipProxyDetectorResultDetail={ipProxyDetectorResult}
         whatWafIpResultDetail={whatWafIpResult}
+        ipCmsEekResultDetail={ipCmsEekResult}
+        firstReverseDnsValue={firstReverseDnsValue}
         loading={isLoading}
         error={error}
       />
