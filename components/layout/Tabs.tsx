@@ -17,7 +17,7 @@ export default function Tabs({
             key={item.id}
             className={`w-1/${
               sec || "4"
-            }  sm:rounded-none py-3 sm:py-2 text-[13px] min-h-9  sm:text-xs rounded-t-2xl overflow-hidden relative md:w-1/2 z-20  ${
+            }  sm:rounded-none py-3 sm:py-2 text-[13px] min-h-9  sm:text-xs rounded-t-2xl overflow-hidden relative md:w-1/4 z-20  ${
               item.value === activeTab ? "text-white " : ""
             } 
                ${smSec ? "sm:w-1/2" : " sm:w-full min-w-[250px] "} relative`}

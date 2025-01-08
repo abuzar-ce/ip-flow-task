@@ -24,7 +24,9 @@ const Vpn = ({ vpnStatus, loading, error }: any) => {
           )}
         </span>
       )}
-      {!loading && error && <p className="text-xs">Data not found </p>}
+      {!loading && error && (
+        <p className="text-xs border p-3 rounded-xl">Data not found </p>
+      )}
     </div>
   );
 };

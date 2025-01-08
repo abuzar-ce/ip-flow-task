@@ -12,7 +12,7 @@ const WhoIsIpCard = ({
   loading,
   error,
 }: any) => {
-  // console.log("whoIsIpDetail", whoIsIpDetail);
+  // console.log("whoIsIpDetail", ipReputationScoreResultDetail);
   const [drawer, setDrawer] = useState(false);
 
   return (
@@ -55,7 +55,10 @@ const WhoIsIpCard = ({
               <Skeleton height={17} width={50} />
             ) : (
               <span className="text-xs">
-                {ipReputationScoreResultDetail?.data?.ISP || "No result found"}
+                {ipReputationScoreResultDetail?.data?.ISP !== null &&
+                ipReputationScoreResultDetail?.data?.ISP !== ""
+                  ? ipReputationScoreResultDetail?.data?.ISP
+                  : "Data not found"}
               </span>
             )}
             {!loading && error && <p className="text-xs">Data not found </p>}
@@ -67,7 +70,8 @@ const WhoIsIpCard = ({
             ) : (
               <span className="text-xs">
                 {whoIsIpDetail?.response?.as ||
-                  ipReputationScoreResultDetail?.data?.ASN}
+                  ipReputationScoreResultDetail?.data?.ASN ||
+                  "Data not found"}
               </span>
             )}
             {!loading && error && <p className="text-xs">Data not found </p>}

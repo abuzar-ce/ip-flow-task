@@ -17,6 +17,7 @@ const IpCard = ({
   whatWafIpResultDetail,
   ipCmsEekResultDetail,
   firstReverseDnsValue,
+  sslyzeipData,
   loading,
   error,
 }: any) => {
@@ -51,13 +52,14 @@ const IpCard = ({
         <TechnologiesCard
           whatWafIpResultDetail={whatWafIpResultDetail}
           ipCmsEekResultDetail={ipCmsEekResultDetail}
+          sslyzeipData={sslyzeipData}
           loading={loading}
           error={error}
         />
         <HistoricalDataCard
           whoIsIpDetail={whoIsIpDetail}
           loading={loading}
-          error={error}
+          errors={error}
         />
         <DarkWebAnalysisCard />
       </div>

@@ -5,9 +5,9 @@ import IpCard from "./IpCard";
 import HeaderCard from "./HeaderCard";
 import { useGetScanResultsQuery } from "@/redux/store/apiSlice";
 
-const Detail = ({ ip }: { ip: any }) => {
+const Detail = ({ taskID }: { taskID: any }) => {
   // console.log("ip token:", ip);
-  const { data, isLoading, error } = useGetScanResultsQuery(ip);
+  const { data, isLoading, error } = useGetScanResultsQuery(taskID);
 
   console.log("testting data", data);
   const rustResult = data?.results?.rust_result?.data[0];
@@ -19,6 +19,9 @@ const Detail = ({ ip }: { ip: any }) => {
   const ipReputationScoreResult = data?.results?.ipreputationscore_result;
   const ipCmsEekResult = data?.results?.ipcmseek_result;
   const reverseDns = data?.results?.ipdig_result?.data?.result;
+  const fraudScore = ipReputationScoreResult?.data?.fraud_score;
+  const sslyzeipData = data?.results?.sslyzeip_result?.data;
+  const score = 100 - fraudScore;
   // Extract the first key-value pair
   const firstEntry = reverseDns ? Object.entries(reverseDns)[0] : null;
   const firstReverseDnsValue = firstEntry ? firstEntry[1] : null;
@@ -58,7 +61,7 @@ const Detail = ({ ip }: { ip: any }) => {
           error={error}
         />
         <HeaderCard
-          number={9}
+          number={score}
           title={"Reputation Score"}
           numColor={"#FFA620"}
           loading={isLoading}
@@ -75,6 +78,7 @@ const Detail = ({ ip }: { ip: any }) => {
         whatWafIpResultDetail={whatWafIpResult}
         ipCmsEekResultDetail={ipCmsEekResult}
         firstReverseDnsValue={firstReverseDnsValue}
+        sslyzeipData={sslyzeipData}
         loading={isLoading}
         error={error}
       />

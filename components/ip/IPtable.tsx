@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
-import { useGetAllIPsQuery } from "@/redux/store/apiSlice";
+import {
+  useGetAllIPsQuery,
+  useGetNuclieResultMutation,
+} from "@/redux/store/apiSlice";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-import { notification, Dropdown, Space } from "antd";
+import { notification, Dropdown, Space, Pagination } from "antd";
 import type { MenuProps } from "antd";
 import Image from "next/image";
 import del from "@/assets/del.svg";
@@ -13,13 +16,23 @@ import schedule from "@/assets/schedule.svg";
 import scan from "@/assets/scan.svg";
 import rename from "@/assets/rename.svg";
 
-const IPtable = () => {
-  const userId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
+const IPtable = ({ userId, refetchTrigger }: any) => {
   const [pollingInterval, setPollingInterval] = useState(5000);
-  const { data, isLoading, error } = useGetAllIPsQuery(userId, {
+  const { data, isLoading, error, refetch } = useGetAllIPsQuery(userId, {
     pollingInterval,
   });
-  console.log("error", error);
+  // const scanId = data?.scan_id;
+  // const ipAddress = data?.ip;
+  // console.log("error", error);
+  // const [
+  //   getNuclieResult,
+  //   { data: nuclieData, isLoading: isNuclieLoading, error: nuclieError },
+  // ] = useGetNuclieResultMutation();
+
+  useEffect(() => {
+    refetch();
+    console.log("refetching table");
+  }, [refetchTrigger, refetch]);
 
   useEffect(() => {
     const scanPending = data?.some((ipData) => ipData.status !== "Completed");
@@ -29,11 +42,21 @@ const IPtable = () => {
       setPollingInterval(0);
     }
   }, [data]);
-  // console.log("testing query", data);
 
+  // Trigger mutation when scan_id and ipAddress are available
   // useEffect(() => {
-  //   console.log("testing query", data);
-  // }, []);
+  //   if (scanId && ipAddress) {
+  //     getNuclieResult({
+  //       domain: ipAddress,
+  //       scan_id: scanId,
+  //     });
+  //   }
+  // }, [scanId, ipAddress, getNuclieResult]);
+  // console.log("testing ip query", data);
+  // console.log("testing nuclie data", nuclieData);
+  useEffect(() => {
+    console.log("testing ip query", data);
+  }, [data, refetchTrigger]);
   const [selectedAllCheck, setSelectedAllCheck] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [searchIp, setSearchIp] = useState("");
@@ -77,7 +100,7 @@ const IPtable = () => {
   };
 
   const handleViewClick = (ipData: any) => {
-    if (ipData.status === "Pending") {
+    if (ipData.status === "Pending" && ipData.nuclei_status !== "Pending") {
       openNotification();
     } else if (ipData.status === "Completed") {
       const scanId = ipData.scan_id;
@@ -128,6 +151,16 @@ const IPtable = () => {
     },
   ];
 
+  const [currentPage, setCurrentPage] = useState(1);
+  // Pagination logic
+  const itemsPerPage = 10;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = filteredData?.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
   return (
     <div className="flex flex-col bg-white-bg mt-5 rounded-lg">
       <div className="flex items-center">
@@ -149,7 +182,7 @@ const IPtable = () => {
         </Dropdown>
       </div>
 
-      <div className="bg-white-bg rounded-2xl overflow-hidden h-auto flex flex-col gap-5">
+      <div className="bg-white-bg rounded-2xl overflow-hidden h-auto flex flex-col gap-5 mb-3">
         <div className="overflow-x-auto ">
           <table className="w-full px-3 ">
             <thead className="w-full px-3 divide-gray-200">
@@ -194,7 +227,7 @@ const IPtable = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100 w-full text-gray-500 text-xs">
-              {filteredData?.map((ipData, i) => (
+              {currentData?.map((ipData, i) => (
                 <tr
                   key={i}
                   className={`${
@@ -222,6 +255,8 @@ const IPtable = () => {
                   </td>
                   <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center flex justify-center items-center">
                     {ipData.status === "Pending" ? (
+                      // &&
+                      // ipData.nuclei_status == "Pending"
                       <p className="spinner"></p>
                     ) : (
                       <FaCircleCheck className="text-xl text-green-500" />
@@ -266,6 +301,22 @@ const IPtable = () => {
               ))}
             </tbody>
           </table>
+          {data ? (
+            <div className="flex justify-center my-2">
+              <Pagination
+                showTotal={(total, range) =>
+                  `Showing ${range[0]} to ${range[1]} of ${total} items`
+                }
+                current={currentPage}
+                pageSize={itemsPerPage}
+                total={filteredData?.length}
+                onChange={handlePageChange}
+              />
+            </div>
+          ) : (
+            ""
+          )}
+
           {isLoading ? (
             <div className="flex justify-center my-10">
               <p className="text-sm ">Loading</p>
@@ -282,7 +333,7 @@ const IPtable = () => {
           ) : (
             ""
           )}
-          {filteredData?.length === 0 && !isLoading ? (
+          {currentData?.length === 0 && !isLoading ? (
             <div className="flex justify-center my-10">
               <p className="text-sm ">No data found</p>
             </div>

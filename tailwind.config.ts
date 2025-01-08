@@ -13,6 +13,12 @@ const config: Config = {
         "gray-bg": "#f9fafb",
         "white-bg": "#ffffff",
         "drawer-bg": "#fbfbfb",
+        "red-text": "#EE1600",
+        "red-bg": "#FDE7EE",
+        "orange-text": "#FFA620",
+        "orange-bg": "#FFF5E6",
+        "green-text": "#69BC5B",
+        "green-bg": "#EEF8ED",
       },
       backgroundImage: {
         "ip-button-grad":

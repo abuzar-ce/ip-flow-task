@@ -23,16 +23,19 @@ const NetworkDetailCard = ({
             {loading ? (
               <Skeleton height={17} width={50} />
             ) : (
-              ipProxyDetectorResultDetail?.data?.vpn_status && (
-                <span className="text-[#EE1600] bg-[#FDE7EE] px-2 rounded-full text-xs">
-                  <span className="text-xs">
-                    {ipProxyDetectorResultDetail?.data?.vpn_status
-                      ? "Yes"
-                      : "No"}
-                  </span>
+              ipProxyDetectorResultDetail?.data?.vpn_status !== undefined && (
+                <span
+                  className={`px-2 rounded-full text-xs ${
+                    ipProxyDetectorResultDetail?.data?.vpn_status
+                      ? "text-green-text bg-green-bg"
+                      : "text-red-text bg-red-bg"
+                  }`}
+                >
+                  {ipProxyDetectorResultDetail?.data?.vpn_status ? "Yes" : "No"}
                 </span>
               )
             )}
+
             {!loading && error && <p className="text-xs">Data not found </p>}
           </div>
           <div className="flex  justify-between gap-3">
