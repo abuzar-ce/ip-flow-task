@@ -53,8 +53,8 @@ const ServicesAndPortsDrawer = ({ detail, loading, error }: any) => {
                   <p
                     className={`rounded-full w-1/2 py-1 ${
                       item.state === "open"
-                        ? "text-red-text bg-red-bg"
-                        : "text-green-text bg-green-bg"
+                        ? "text-green-text bg-green-bg"
+                        : "text-red-text bg-red-bg"
                     }`}
                   >
                     {item.state}

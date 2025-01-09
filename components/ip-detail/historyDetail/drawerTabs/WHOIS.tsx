@@ -25,49 +25,50 @@ const WHOIS = ({ data, loading, error }: any) => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100 w-full text-gray-500 text-xs">
-            {data?.map((item: any, i: number) => {
-              const lastScanDate = item?.Completed_At;
-              const formatDateTime = (dateString: string) => {
-                if (!dateString) return "Data not found";
-                const date = new Date(dateString);
-                const formattedDate = date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                });
-                const formattedTime = date.toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                });
-                return `${formattedDate}, ${formattedTime}`;
-              };
+            {data &&
+              data?.map((item: any, i: number) => {
+                const lastScanDate = item?.Completed_At;
+                const formatDateTime = (dateString: string) => {
+                  if (!dateString) return "Data not found";
+                  const date = new Date(dateString);
+                  const formattedDate = date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  });
+                  const formattedTime = date.toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  });
+                  return `${formattedDate}, ${formattedTime}`;
+                };
 
-              return (
-                <tr
-                  key={i}
-                  className={`${
-                    i % 2 === 0 ? "bg-drawer-bg" : "bg-white"
-                  } border-b`}
-                >
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
-                    {item?.Ip_Info?.Ip || "No result found"}
-                  </td>
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
-                    {item?.Ip_Info?.Owner || "No result found"}
-                  </td>
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
-                    {item?.Ip_Info?.Country || "No result found"}
-                  </td>
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
-                    {item?.Ip_Info?.Location || "No result found"}
-                  </td>
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
-                    {formatDateTime(lastScanDate) || "No result found"}
-                  </td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr
+                    key={i}
+                    className={`${
+                      i % 2 === 0 ? "bg-drawer-bg" : "bg-white"
+                    } border-b`}
+                  >
+                    <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
+                      {item?.Ip_Info?.Ip || "No result found"}
+                    </td>
+                    <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
+                      {item?.Ip_Info?.Owner || "No result found"}
+                    </td>
+                    <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
+                      {item?.Ip_Info?.Country || "No result found"}
+                    </td>
+                    <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
+                      {item?.Ip_Info?.Location || "No result found"}
+                    </td>
+                    <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
+                      {formatDateTime(lastScanDate) || "No result found"}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
         {loading ? (

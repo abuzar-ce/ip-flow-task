@@ -40,8 +40,8 @@ const PortsDetail = ({ item }: any) => {
                 <span
                   className={`${
                     portDetail?.state === "open"
-                      ? "text-red-text bg-red-bg"
-                      : "text-green-text bg-green-bg"
+                      ? "text-green-text bg-green-bg"
+                      : "text-red-text bg-red-bg"
                   }  px-2 rounded-full`}
                 >
                   {portDetail?.state}

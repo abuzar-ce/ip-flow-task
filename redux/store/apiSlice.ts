@@ -36,7 +36,7 @@ export const nuclieSlice = createApi({
     // Define the query to fetch all IPs
     getNuclieResult: builder.mutation({
       query: (data) => ({
-        url: `run-nuclie`,
+        url: `run-nuclei`,
         method: "POST",
         body: data,
       }),

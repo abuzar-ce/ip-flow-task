@@ -13,8 +13,8 @@ const TechnologiesCard = ({
   error,
 }: any) => {
   const [drawer, setDrawer] = useState(false);
-  // const parsedData = JSON.parse(sslyzeipData);
-  // console.log("SSLinfo", JSON.parse(sslyzeipData));
+  const parsedData = sslyzeipData && JSON.parse(sslyzeipData);
+  // console.log("whatWafIpResultDetail", whatWafIpResultDetail);
   // console.log("data thaaaaaaaaa", JSON.stringify(parsedData, null, 2));
 
   return (
@@ -46,16 +46,26 @@ const TechnologiesCard = ({
                 </span>
               )
             )}
-            {!loading && error && <p className="text-xs">Data not found </p>}
+            {!loading && (!whatWafIpResultDetail || error) && (
+              <p className="text-xs">Data not found</p>
+            )}
           </div>
           <div className="flex  justify-between gap-3">
             <span className="text-xs">SSL/TLS Info</span>
-            <span className="text-xs">
-              {/* {
-                parsedData?.server_scan_results[0]?.connectivity_result
-                  ?.highest_tls_version_supported
-              } */}
-            </span>
+            {loading ? (
+              <Skeleton height={17} width={50} />
+            ) : (
+              <span className="text-xs">
+                {
+                  parsedData?.server_scan_results[0]?.connectivity_result
+                    ?.highest_tls_version_supported
+                }
+              </span>
+            )}
+            {!loading &&
+              (!parsedData?.server_scan_results[0]?.connectivity_result
+                ?.highest_tls_version_supported ||
+                error) && <p className="text-xs">Data not found </p>}
           </div>
         </div>
       </IpDataCard>

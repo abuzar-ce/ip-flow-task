@@ -36,7 +36,13 @@ const TechnologiesDrawer = ({
             error={error}
           />
         ) : null}
-        {tab === "sslInfo" ? <SslInfo sslyzeipData={sslyzeipData} /> : null}
+        {tab === "sslInfo" ? (
+          <SslInfo
+            sslyzeipData={sslyzeipData}
+            loading={loading}
+            error={error}
+          />
+        ) : null}
       </div>
     </div>
   );

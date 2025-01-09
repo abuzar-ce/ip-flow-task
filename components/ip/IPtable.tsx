@@ -5,6 +5,7 @@ import { IoEyeSharp } from "react-icons/io5";
 import {
   useGetAllIPsQuery,
   useGetNuclieResultMutation,
+  useRunNewScanMutation,
 } from "@/redux/store/apiSlice";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
@@ -21,13 +22,15 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
   const { data, isLoading, error, refetch } = useGetAllIPsQuery(userId, {
     pollingInterval,
   });
-  // const scanId = data?.scan_id;
-  // const ipAddress = data?.ip;
-  // console.log("error", error);
-  // const [
-  //   getNuclieResult,
-  //   { data: nuclieData, isLoading: isNuclieLoading, error: nuclieError },
-  // ] = useGetNuclieResultMutation();
+
+  const [
+    executeNewScan,
+    { data: newScanData, isLoading: newScanLoading, error: newScanError },
+  ] = useRunNewScanMutation();
+  const [
+    getNuclieResult,
+    { data: nuclieData, isLoading: isNuclieLoading, error: nuclieError },
+  ] = useGetNuclieResultMutation();
 
   useEffect(() => {
     refetch();
@@ -35,7 +38,9 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
   }, [refetchTrigger, refetch]);
 
   useEffect(() => {
-    const scanPending = data?.some((ipData) => ipData.status !== "Completed");
+    const scanPending = data?.some(
+      (ipData: any) => ipData.status !== "Completed"
+    );
     if (scanPending) {
       setPollingInterval(5000);
     } else {
@@ -43,20 +48,9 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
     }
   }, [data]);
 
-  // Trigger mutation when scan_id and ipAddress are available
   // useEffect(() => {
-  //   if (scanId && ipAddress) {
-  //     getNuclieResult({
-  //       domain: ipAddress,
-  //       scan_id: scanId,
-  //     });
-  //   }
-  // }, [scanId, ipAddress, getNuclieResult]);
-  // console.log("testing ip query", data);
-  // console.log("testing nuclie data", nuclieData);
-  useEffect(() => {
-    console.log("testing ip query", data);
-  }, [data, refetchTrigger]);
+  //   console.log("testing ip query", data);
+  // }, [data, refetchTrigger]);
   const [selectedAllCheck, setSelectedAllCheck] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [searchIp, setSearchIp] = useState("");
@@ -65,7 +59,7 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
   const handleSelectedCheckAll = () => {
     setSelectedAllCheck((prev) => !prev);
     if (!selectedAllCheck) {
-      setSelectedRows(data?.map((_, index) => index) || []); // Select all rows if 'select all' is clicked
+      setSelectedRows(data?.map((_: any, index: any) => index) || []); // Select all rows if 'select all' is clicked
     } else {
       setSelectedRows([]); // Deselect all rows if 'select all' is clicked again
     }
@@ -108,9 +102,22 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
     }
   };
 
-  const filteredData = data?.filter((ipData) =>
+  const filteredData = data?.filter((ipData: any) =>
     ipData.ip.toLowerCase().includes(searchIp.toLowerCase())
   );
+
+  const handleRescan = async (ipAddress: any) => {
+    await executeNewScan({
+      ip: ipAddress,
+      user_id: userId,
+    }).then((data) => {
+      getNuclieResult({
+        domain: ipAddress,
+        scan_id: data?.data?.task_id,
+      });
+      // console.log("new scan data", data?.data?.task_id);
+    });
+  };
 
   const items: MenuProps["items"] = [
     {
@@ -227,7 +234,7 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100 w-full text-gray-500 text-xs">
-              {currentData?.map((ipData, i) => (
+              {currentData?.map((ipData: any, i: number) => (
                 <tr
                   key={i}
                   className={`${
@@ -279,9 +286,9 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
                     {ipData.status == "Completed" ? (
                       <button
                         className="text-primary font-bold "
-                        // onClick={() => {
-                        //   handleRescan(ipData);
-                        // }}
+                        onClick={() => {
+                          handleRescan(ipData.ip);
+                        }}
                       >
                         Rescan
                       </button>

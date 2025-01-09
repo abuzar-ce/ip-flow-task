@@ -19,7 +19,7 @@ const HistoricalDataCard = ({ whoIsIpDetail, loading, errors }: any) => {
 
   const [drawer, setDrawer] = useState(false);
   const formatDateTime = (dateString: string) => {
-    if (!dateString) return "Data not found";
+    if (!dateString) return "";
 
     const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString("en-US", {
@@ -60,7 +60,7 @@ const HistoricalDataCard = ({ whoIsIpDetail, loading, errors }: any) => {
               <span className="text-xs font-inter ">
                 {lastScanDate !== null && lastScanDate !== ""
                   ? formatDateTime(lastScanDate)
-                  : "Data not found"}
+                  : ""}
               </span>
             )}
             {!isLoading && error && <p className="text-xs">Data not found </p>}
