@@ -1,10 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IpDataCard from "../IpDataCard";
 import IpDrawer from "../IpDrawer";
+import { useGetDarkWebMutation } from "@/redux/store/apiSlice";
 
-const DarkWebAnalysisCard = () => {
+const DarkWebAnalysisCard = ({ whoIsIpDetail, scanId }: any) => {
   const [drawer, setDrawer] = useState(false);
+  const [
+    executeDarkWeb,
+    { data: darkWebData, isLoading: darkWebLoading, error: darkWebError },
+  ] = useGetDarkWebMutation();
+
+  useEffect(() => {
+    executeDarkWeb({
+      scan_id: scanId,
+      use_date_filtering: false,
+      days: 30,
+      page_size: 100,
+      page: 1,
+      include_cluster_total: false,
+      ip: whoIsIpDetail?.query?.ip,
+    });
+  }, [whoIsIpDetail?.query?.ip]);
+  console.log("darkWebData", darkWebData);
 
   return (
     <>

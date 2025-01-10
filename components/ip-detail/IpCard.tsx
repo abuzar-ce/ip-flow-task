@@ -18,6 +18,7 @@ const IpCard = ({
   ipCmsEekResultDetail,
   firstReverseDnsValue,
   sslyzeipData,
+  scanId,
   loading,
   error,
 }: any) => {
@@ -61,7 +62,7 @@ const IpCard = ({
           loading={loading}
           errors={error}
         />
-        <DarkWebAnalysisCard />
+        <DarkWebAnalysisCard whoIsIpDetail={whoIsIpDetail} scanId={scanId} />
       </div>
     </>
   );

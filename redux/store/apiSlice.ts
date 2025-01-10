@@ -44,6 +44,23 @@ export const nuclieSlice = createApi({
   }),
 });
 
+export const darkWebSlice = createApi({
+  reducerPath: "darkWebApi", // A unique key for the API slice
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://dw.attackinsights.dev/",
+  }),
+  endpoints: (builder) => ({
+    // Define the query to fetch dark web
+    getDarkWeb: builder.mutation({
+      query: (data) => ({
+        url: `search/ip`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+  }),
+});
+
 export const {
   useGetAllIPsQuery,
   useGetScanResultsQuery,
@@ -51,3 +68,4 @@ export const {
   useRunNewScanMutation,
 } = apiSlice;
 export const { useGetNuclieResultMutation } = nuclieSlice;
+export const { useGetDarkWebMutation } = darkWebSlice;

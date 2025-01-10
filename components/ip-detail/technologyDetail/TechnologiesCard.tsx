@@ -40,15 +40,17 @@ const TechnologiesCard = ({
             {loading ? (
               <Skeleton height={17} width={50} />
             ) : (
-              whatWafIpResultDetail?.results?.["identified firewall"] && (
+              whatWafIpResultDetail?.Result && (
                 <span className="text-[#EE1600] bg-[#FDE7EE] px-2 rounded-full text-xs">
-                  {whatWafIpResultDetail?.results?.["identified firewall"]}
+                  {whatWafIpResultDetail?.results?.["identified firewall"] ||
+                    whatWafIpResultDetail?.Result}
                 </span>
               )
             )}
-            {!loading && (!whatWafIpResultDetail || error) && (
-              <p className="text-xs">Data not found</p>
-            )}
+            {!loading &&
+              (!whatWafIpResultDetail.Result === undefined || error) && (
+                <p className="text-xs">Data not found</p>
+              )}
           </div>
           <div className="flex  justify-between gap-3">
             <span className="text-xs">SSL/TLS Info</span>

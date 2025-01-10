@@ -10,7 +10,7 @@ const Detail = ({ taskID }: { taskID: any }) => {
   const { data, isLoading, error } = useGetScanResultsQuery(taskID);
 
   console.log("testting data", data);
-  const rustResult = data?.results?.rust_result?.data[0];
+  const rustResult = data?.results?.rust_result?.data;
   const whoIsIp = data?.results?.whoisip_result?.data;
   const ipInfoResult = data?.results?.ipinfo_result?.data;
   const nucleiIpResult = data?.results?.nucleiip_result;
@@ -81,6 +81,7 @@ const Detail = ({ taskID }: { taskID: any }) => {
         sslyzeipData={sslyzeipData}
         loading={isLoading}
         error={error}
+        scanId={taskID}
       />
     </div>
   );

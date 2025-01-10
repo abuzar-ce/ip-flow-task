@@ -87,7 +87,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 SHA1 Fingerprint
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {sha1}
+                {sha1 || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-white border-b`}>
@@ -95,7 +95,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Common Name
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {commonName?.join(", ")}
+                {commonName?.join(", ") || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-drawer-bg border-b`}>
@@ -103,7 +103,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Issuer
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {issuer}
+                {issuer || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-white border-b`}>
@@ -111,7 +111,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Serial Number
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {serialNumber}
+                {serialNumber || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-drawer-bg border-b`}>
@@ -119,7 +119,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Not Before
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {notBefore}
+                {notBefore || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-white border-b`}>
@@ -127,7 +127,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Not After
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {notAfter}
+                {notAfter || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-drawer-bg border-b`}>
@@ -135,7 +135,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Public Key Algorithm
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {publicKey}
+                {publicKey || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-white border-b`}>
@@ -143,7 +143,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Signature Algorithm
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {signatureAlgorithm}
+                {signatureAlgorithm || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-drawer-bg border-b`}>
@@ -151,7 +151,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Key Size
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {keySize}
+                {keySize || "Data not found"}
               </td>
             </tr>
             <tr className={` bg-white border-b`}>
@@ -159,7 +159,7 @@ const SslInfo = ({ sslyzeipData, loading, error }: any) => {
                 Subject Name
               </td>
               <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center w-1/4">
-                {subjectName?.join(", ")}
+                {subjectName?.join(", ") || "Data not found"}
               </td>
             </tr>
           </tbody>

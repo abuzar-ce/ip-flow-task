@@ -6,7 +6,7 @@ import IpDrawer from "../IpDrawer";
 import ServicesAndPortsDrawer from "./ServicesAndPortsDrawer";
 
 const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
-  // console.log("details", rustResultDetail);
+  console.log("details", rustResultDetail);
   const misconfigurationsCount = rustResultDetail?.ports?.filter(
     (item: any) => item.misconfiguration === "yes"
   ).length;
