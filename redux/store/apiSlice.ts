@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api", // A unique key for the API slice
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://stagging.domain.attackinsights.dev/",
+    baseUrl: "https://ip.attackinsights.ai/",
   }),
   endpoints: (builder) => ({
     // Define the query to fetch all IPs
@@ -20,6 +20,13 @@ export const apiSlice = createApi({
       query: (data) => ({
         url: "ip-scan-all",
         method: "POST",
+        body: data,
+      }),
+    }),
+    deleteScan: builder.mutation({
+      query: (data) => ({
+        url: "delete-scans",
+        method: "DELETE",
         body: data,
       }),
     }),
@@ -66,6 +73,7 @@ export const {
   useGetScanResultsQuery,
   useGetHistoryResultsQuery,
   useRunNewScanMutation,
+  useDeleteScanMutation,
 } = apiSlice;
 export const { useGetNuclieResultMutation } = nuclieSlice;
 export const { useGetDarkWebMutation } = darkWebSlice;

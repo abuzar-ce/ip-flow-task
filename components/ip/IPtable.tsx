@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import {
+  useDeleteScanMutation,
   useGetAllIPsQuery,
   useGetNuclieResultMutation,
   useRunNewScanMutation,
@@ -22,6 +23,10 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
   const { data, isLoading, error, refetch } = useGetAllIPsQuery(userId, {
     pollingInterval,
   });
+  const [
+    deleteResult,
+    { data: deleteData, isLoading: deleteLoading, error: deleteError },
+  ] = useDeleteScanMutation();
 
   const [
     executeNewScan,
@@ -48,40 +53,41 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   console.log("testing ip query", data);
-  // }, [data, refetchTrigger]);
   const [selectedAllCheck, setSelectedAllCheck] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
   const [searchIp, setSearchIp] = useState("");
   const router = useRouter();
 
   const handleSelectedCheckAll = () => {
     setSelectedAllCheck((prev) => !prev);
     if (!selectedAllCheck) {
-      setSelectedRows(data?.map((_: any, index: any) => index) || []); // Select all rows if 'select all' is clicked
+      setSelectedRows(data?.map((item: any) => item.ip) || []); // Select all rows if 'select all' is clicked
     } else {
       setSelectedRows([]); // Deselect all rows if 'select all' is clicked again
     }
   };
 
-  const handleRowCheckboxChange = (index: number) => {
+  const handleRowCheckboxChange = (ipAddress: string) => {
     setSelectedRows((prevSelectedRows) => {
-      if (prevSelectedRows.includes(index)) {
-        // Deselect the row
-        const updatedRows = prevSelectedRows.filter((i) => i !== index);
-        // Update "Select All" checkbox based on whether all rows are selected
-        setSelectedAllCheck(updatedRows.length === data?.length);
-        return updatedRows;
-      } else {
-        // Select the row
-        const updatedRows = [...prevSelectedRows, index];
-        // Update "Select All" checkbox based on whether all rows are selected
-        setSelectedAllCheck(updatedRows.length === data?.length);
-        return updatedRows;
-      }
+      const isSelected = prevSelectedRows.includes(ipAddress);
+      const updatedRows = isSelected
+        ? prevSelectedRows.filter((ip) => ip !== ipAddress) // Deselect the row
+        : [...prevSelectedRows, ipAddress]; // Select the row
+
+      console.log("Updated selected rows:", updatedRows);
+      return updatedRows;
     });
   };
+
+  useEffect(() => {
+    // Update 'selectedAllCheck' when all rows are checked or unchecked
+    if (data) {
+      const allSelected =
+        data.length > 0 &&
+        data.every((item: any) => selectedRows.includes(item.ip));
+      setSelectedAllCheck(allSelected);
+    }
+  }, [selectedRows, data]);
 
   const openNotification = () => {
     notification.open({
@@ -119,13 +125,48 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
     });
   };
 
+  const deleteScanResult = async () => {
+    await deleteResult({
+      user_id: userId,
+      ip: selectedRows,
+    }).then(() => {
+      refetch();
+      setSelectedRows([]);
+    });
+  };
+
+  //selected scan
+  const runSelectedScan = async () => {
+    try {
+      for (const singleIp of selectedRows) {
+        const scanData = await executeNewScan({
+          ip: singleIp,
+          user_id: userId,
+        });
+
+        if (scanData?.data?.task_id) {
+          await getNuclieResult({
+            domain: singleIp,
+            scan_id: scanData.data.task_id,
+          });
+        } else {
+          console.warn(`Task ID missing for IP: ${singleIp}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error running selected scans:", error);
+    }
+  };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
       label: (
         <div className="flex gap-2 items-center">
           <Image src={del} alt="Delete" width={20} height={20} />
-          <button className="text-gray-700">Delete Selected</button>
+          <button onClick={deleteScanResult} className="text-gray-700">
+            Delete Selected
+          </button>
         </div>
       ),
     },
@@ -134,7 +175,9 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
       label: (
         <div className="flex gap-2 items-center">
           <Image src={scan} alt="Scan" width={20} height={20} />
-          <button className="text-gray-700">Scan Selected</button>
+          <button onClick={runSelectedScan} className="text-gray-700">
+            Scan Selected
+          </button>
         </div>
       ),
     },
@@ -244,8 +287,8 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
                   <td className="px-6 sm:px-3 py-3 text-center">
                     <input
                       type="checkbox"
-                      checked={selectedRows.includes(i)}
-                      onChange={() => handleRowCheckboxChange(i)}
+                      checked={selectedRows.includes(ipData.ip)}
+                      onChange={() => handleRowCheckboxChange(ipData.ip)}
                       className="hover:cursor-pointer"
                     />
                   </td>
@@ -257,30 +300,52 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
                   <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center">
                     {ipData.ip}
                   </td>
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center">
-                    {ipData.number_of_ports || "N/A"}
-                  </td>
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center flex justify-center items-center">
-                    {ipData.status === "Pending" ? (
-                      // &&
-                      // ipData.nuclei_status == "Pending"
-                      <p className="spinner"></p>
-                    ) : (
-                      <FaCircleCheck className="text-xl text-green-500" />
-                    )}
+                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center ">
+                    <span className="flex justify-center">
+                      {ipData.number_of_ports === "Pending" ? (
+                        <p className="spinner"></p>
+                      ) : (
+                        ipData.number_of_ports || "N/A"
+                      )}
+                    </span>
                   </td>
                   <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center">
-                    {ipData.owner}
+                    <span className="flex justify-center items-center">
+                      {ipData.status === "Pending" ? (
+                        // &&
+                        // ipData.nuclei_status == "Pending"
+                        <p className="spinner"></p>
+                      ) : (
+                        <FaCircleCheck className="text-xl text-green-500" />
+                      )}
+                    </span>
                   </td>
                   <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center">
-                    {ipData.country}
+                    <span className="flex justify-center">
+                      {ipData.owner === "Pending" ? (
+                        <p className="spinner"></p>
+                      ) : (
+                        ipData.owner || "N/A"
+                      )}
+                    </span>
                   </td>
-                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center flex justify-center items-center">
-                    {ipData.fraud_score === "Pending" ? (
-                      <p className="spinner"></p>
-                    ) : (
-                      ipData.fraud_score
-                    )}
+                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center">
+                    <span className="flex justify-center">
+                      {ipData.country === "Pending" ? (
+                        <p className="spinner"></p>
+                      ) : (
+                        ipData.country || "N/A"
+                      )}
+                    </span>
+                  </td>
+                  <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center">
+                    <span className="flex justify-center">
+                      {ipData.fraud_score === "Pending" ? (
+                        <p className="spinner"></p>
+                      ) : (
+                        ipData.fraud_score
+                      )}
+                    </span>
                   </td>
                   <td className="px-6 sm:px-3 py-4 whitespace-nowrap text-center">
                     {ipData.status == "Completed" ? (
@@ -308,21 +373,6 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
               ))}
             </tbody>
           </table>
-          {data ? (
-            <div className="flex justify-center my-2">
-              <Pagination
-                showTotal={(total, range) =>
-                  `Showing ${range[0]} to ${range[1]} of ${total} items`
-                }
-                current={currentPage}
-                pageSize={itemsPerPage}
-                total={filteredData?.length}
-                onChange={handlePageChange}
-              />
-            </div>
-          ) : (
-            ""
-          )}
 
           {isLoading ? (
             <div className="flex justify-center my-10">
@@ -343,6 +393,21 @@ const IPtable = ({ userId, refetchTrigger }: any) => {
           {currentData?.length === 0 && !isLoading ? (
             <div className="flex justify-center my-10">
               <p className="text-sm ">No data found</p>
+            </div>
+          ) : (
+            ""
+          )}
+          {currentData?.length > 10 && !isLoading ? (
+            <div className="flex justify-center my-2">
+              <Pagination
+                showTotal={(total, range) =>
+                  `Showing ${range[0]} to ${range[1]} of ${total} rows`
+                }
+                current={currentPage}
+                pageSize={itemsPerPage}
+                total={filteredData?.length}
+                onChange={handlePageChange}
+              />
             </div>
           ) : (
             ""

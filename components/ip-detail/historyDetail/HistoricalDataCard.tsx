@@ -7,7 +7,8 @@ import { useGetHistoryResultsQuery } from "@/redux/store/apiSlice";
 import HistoricalDataDrawer from "./HistoricalDataDrawer";
 
 const HistoricalDataCard = ({ whoIsIpDetail, loading, errors }: any) => {
-  const userID = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
+  const userID = "3fa85f64-5717-4562-b3fc-2c963f66afa0";
+  // const userID = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
   const ip = whoIsIpDetail?.query?.ip;
   const { data, isLoading, error } = useGetHistoryResultsQuery({
     user_id: userID,
