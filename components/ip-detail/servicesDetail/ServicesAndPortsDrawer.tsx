@@ -3,7 +3,7 @@ import { Pagination } from "antd";
 import React, { useState } from "react";
 
 const ServicesAndPortsDrawer = ({ detail, loading, error }: any) => {
-  const data = detail?.ports;
+  const data = detail[0]?.ports;
   // console.log(detail);
   const [currentPage, setCurrentPage] = useState(1);
   // Pagination logic
@@ -81,7 +81,7 @@ const ServicesAndPortsDrawer = ({ detail, loading, error }: any) => {
             ))}
           </tbody>
         </table>
-        {data ? (
+        {data?.length > 10 && !loading ? (
           <div className="flex justify-center my-2">
             <Pagination
               showTotal={(total, range) =>

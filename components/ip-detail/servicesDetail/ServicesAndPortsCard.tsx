@@ -7,9 +7,11 @@ import ServicesAndPortsDrawer from "./ServicesAndPortsDrawer";
 
 const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
   console.log("details", rustResultDetail);
-  const misconfigurationsCount = rustResultDetail?.ports?.filter(
-    (item: any) => item.misconfiguration === "yes"
-  ).length;
+  const misconfigurationsCount = rustResultDetail
+    ? rustResultDetail[0]?.ports?.filter(
+        (item: any) => item.misconfiguration === "yes"
+      ).length
+    : "";
   const [drawer, setDrawer] = useState(false);
 
   return (
@@ -21,7 +23,9 @@ const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
             {loading ? (
               <Skeleton height={17} width={50} />
             ) : (
-              <span className="text-xs">{rustResultDetail?.ports?.length}</span>
+              <span className="text-xs">
+                {rustResultDetail[0]?.ports?.length}
+              </span>
             )}
             {!loading && error && <p className="text-xs">Data not found</p>}
           </div>
@@ -30,7 +34,9 @@ const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
             {loading ? (
               <Skeleton height={17} width={50} />
             ) : (
-              <span className="text-xs">{rustResultDetail?.ports?.length}</span>
+              <span className="text-xs">
+                {rustResultDetail[0]?.ports?.length}
+              </span>
             )}
             {!loading && error && <p className="text-xs">Data not found </p>}
           </div>

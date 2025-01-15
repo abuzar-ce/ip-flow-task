@@ -40,14 +40,14 @@ const Detail = ({ taskID }: { taskID: any }) => {
       </div>
       <div className="flex gap-4 flex-col md:flex-row bg-white-bg p-2 rounded-2xl mb-4">
         <HeaderCard
-          number={rustResult?.ports?.length}
+          number={rustResult[0]?.ports?.length}
           title={"Open Ports"}
           numColor={"#1757C1"}
           loading={isLoading}
           error={error}
         />
         <HeaderCard
-          number={rustResult?.ports?.length}
+          number={rustResult[0]?.ports?.length}
           title={"Services Identified"}
           numColor={"#339900"}
           loading={isLoading}
