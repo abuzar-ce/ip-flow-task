@@ -81,6 +81,11 @@ const ServicesAndPortsDrawer = ({ detail, loading, error }: any) => {
             ))}
           </tbody>
         </table>
+        {detail[0]?.port && (
+          <div className="my-10 ">
+            <p className="text-xs text-center items-center"> Data not found</p>
+          </div>
+        )}
         {data?.length > 10 && !loading ? (
           <div className="flex justify-center my-2">
             <Pagination

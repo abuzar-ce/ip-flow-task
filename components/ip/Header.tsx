@@ -62,8 +62,6 @@ const Header = ({ userId, setRefetchTrigger }: any) => {
       getNuclieResult({
         domain: ipTyped,
         scan_id: data?.data?.task_id,
-      }).then((data) => {
-        console.log("nuclie executed thaaaaa", data);
       });
       // console.log("new scan data", data?.data?.task_id);
     });

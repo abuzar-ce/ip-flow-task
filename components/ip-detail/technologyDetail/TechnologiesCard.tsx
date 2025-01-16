@@ -26,12 +26,17 @@ const TechnologiesCard = ({
             {loading ? (
               <Skeleton height={17} width={50} />
             ) : (
-              <span className="text-xs">
+              <div className="text-xs">
                 {ipCmsEekResultDetail?.data?.result?.cms_name !== null &&
                 ipCmsEekResultDetail?.data?.result?.cms_name !== ""
                   ? ipCmsEekResultDetail?.data?.result?.cms_name
                   : "Data not found"}
-              </span>
+                {(ipCmsEekResultDetail?.data?.result === "No CMS Found" ||
+                  ipCmsEekResultDetail?.data?.result ===
+                    "CMSeek not found due to multiple domains.") && (
+                  <p>Data not found</p>
+                )}
+              </div>
             )}
             {!loading && error && <p className="text-xs">Data not found </p>}
           </div>

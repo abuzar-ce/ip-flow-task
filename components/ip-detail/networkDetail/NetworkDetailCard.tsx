@@ -53,7 +53,10 @@ const NetworkDetailCard = ({
               {loading ? (
                 <Skeleton height={17} width={50} />
               ) : (
-                <span className="text-xs">{firstReverseDnsValue}</span>
+                <div className="text-xs">
+                  {firstReverseDnsValue}
+                  {firstReverseDnsValue === null && <p>Data not found</p>}
+                </div>
               )}
               {!loading && error && <p className="text-xs">Data not found </p>}
             </span>

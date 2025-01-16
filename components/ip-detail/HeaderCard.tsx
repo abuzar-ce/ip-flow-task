@@ -8,7 +8,7 @@ const HeaderCard = ({
   loading,
   error,
 }: {
-  number: number;
+  number: any;
   title: string;
   numColor: string;
   loading: any;

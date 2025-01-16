@@ -30,6 +30,7 @@ const Detail = ({ taskID }: { taskID: any }) => {
     { name: "IP Address", href: "/ip-address" },
     { name: whoIsIp?.query?.ip, href: "" },
   ];
+  const rustNumber = rustResult ? rustResult[0]?.ports?.length : null
   return (
     <div className="flex flex-col ">
       <div className="flex justify-between my-4">
@@ -40,14 +41,14 @@ const Detail = ({ taskID }: { taskID: any }) => {
       </div>
       <div className="flex gap-4 flex-col md:flex-row bg-white-bg p-2 rounded-2xl mb-4">
         <HeaderCard
-          number={rustResult[0]?.ports?.length}
+          number={rustNumber}
           title={"Open Ports"}
           numColor={"#1757C1"}
           loading={isLoading}
           error={error}
         />
         <HeaderCard
-          number={rustResult[0]?.ports?.length}
+          number={rustNumber}
           title={"Services Identified"}
           numColor={"#339900"}
           loading={isLoading}

@@ -6,7 +6,7 @@ import IpDrawer from "../IpDrawer";
 import ServicesAndPortsDrawer from "./ServicesAndPortsDrawer";
 
 const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
-  console.log("details", rustResultDetail);
+  // console.log("details", rustResultDetail);
   const misconfigurationsCount = rustResultDetail
     ? rustResultDetail[0]?.ports?.filter(
         (item: any) => item.misconfiguration === "yes"
@@ -24,7 +24,10 @@ const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
               <Skeleton height={17} width={50} />
             ) : (
               <span className="text-xs">
-                {rustResultDetail[0]?.ports?.length}
+                {rustResultDetail[0]?.port && (
+                  <p className="text-xs"> Data not found</p>
+                )}
+                {rustResultDetail? rustResultDetail[0]?.ports?.length : "Data not found"}
               </span>
             )}
             {!loading && error && <p className="text-xs">Data not found</p>}
@@ -34,9 +37,12 @@ const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
             {loading ? (
               <Skeleton height={17} width={50} />
             ) : (
-              <span className="text-xs">
-                {rustResultDetail[0]?.ports?.length}
-              </span>
+              <div className="text-xs">
+                 {rustResultDetail[0]?.port && (
+                  <p className="text-xs"> Data not found</p>
+                )}
+                {rustResultDetail? rustResultDetail[0]?.ports?.length : "Data not found"}
+              </div>
             )}
             {!loading && error && <p className="text-xs">Data not found </p>}
           </div>
@@ -45,7 +51,10 @@ const ServicesAndPortsCard = ({ rustResultDetail, loading, error }: any) => {
             {loading ? (
               <Skeleton height={17} width={50} />
             ) : (
-              <span className="text-xs">{misconfigurationsCount}</span>
+              <div className="text-xs">
+                 {rustResultDetail[0]?.port && (
+                  <p className="text-xs"> Data not found</p>
+                )}{misconfigurationsCount}</div>
             )}
             {!loading && error && <p className="text-xs">Data not found </p>}
           </div>

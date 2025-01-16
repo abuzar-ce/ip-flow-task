@@ -14,12 +14,17 @@ const CMS = ({ ipCmsEekResultDetail, loading, error }: any) => {
           {loading ? (
             <Skeleton height={17} width={50} />
           ) : (
-            <span className="text-xs px-5">
+            <div className="text-xs px-5">
               {ipCmsEekResultDetail?.data?.result?.cms_name !== null &&
               ipCmsEekResultDetail?.data?.result?.cms_name !== ""
                 ? ipCmsEekResultDetail?.data?.result?.cms_name
                 : "Data not found"}
-            </span>
+              {(ipCmsEekResultDetail?.data?.result === "No CMS Found" ||
+                ipCmsEekResultDetail?.data?.result ===
+                  "CMSeek not found due to multiple domains.") && (
+                <p>Data not found</p>
+              )}
+            </div>
           )}
           {!loading && error && <p className="text-xs">Data not found </p>}
         </div>
