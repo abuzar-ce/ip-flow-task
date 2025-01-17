@@ -45,10 +45,19 @@ const DarkWebAnalysisCard = ({ whoIsIpDetail, scanId }: any) => {
           </div>
           <div className="flex  justify-between gap-3">
             <span className="text-xs">Breach Status</span>
-            <span className="text-[#69BC5B] font-bold bg-[#EEF8ED] px-2 rounded-full text-xs">
-              Not breached
-              {/* if hit is equal to 0 not breached else breached with red color */}
-            </span>
+            <div>
+              {darkWebData === undefined ? (
+                <p className=" text-xs">Data not found</p>
+              ) : darkWebData?.total_hits === 0 ? (
+                <p className="text-green-500 font-bold bg-green-50 px-2 rounded-full text-xs">
+                  Not breached
+                </p>
+              ) : darkWebData?.total_hits > 0 ? (
+                <p className="text-red-500 font-bold bg-red-50 px-2 rounded-full text-xs">
+                  Breached
+                </p>
+              ) : null}
+            </div>
           </div>
           <div className="flex  justify-between gap-3">
             <span className="text-xs">Last Detected</span>

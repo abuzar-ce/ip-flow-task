@@ -1,5 +1,5 @@
 export const formatDateTime = (dateString: string) => {
-  if (!dateString) return "Data not found";
+  if (!dateString) return "";
   const date = new Date(dateString);
   const formattedDate = date.toLocaleDateString("en-US", {
     month: "2-digit",
